@@ -54,17 +54,13 @@ describe 'textobj_Url'
     it 'should set g:loaded_textobj_url'
         Expect exists('g:loaded_textobj_url') == 1
     end
+end
 
-    it 'should match with the cursor before the url'
+describe 'url matching'
+    it 'should not match incorrect urls'
         for url in s:correct_urls
             call s:cleanBuffer()
-            call s:prepareBuffer(url)
-
-            " Go to line 4
-            4
-
-            " Jump to beginning of line
-            norm 0
+            put = url
 
             " Do vau
             norm "xyau
@@ -74,60 +70,73 @@ describe 'textobj_Url'
         endfor
     end
 
-    " it 'should match with the cursor after the url'
-    "     for url in s:correct_urls
-    "         call s:cleanBuffer()
-    "         call s:prepareBuffer(url)
-
-    "         " Go to line 4
-    "         4
-
-    "         " Jump to end of line
-    "         norm $
-
-    "         " Do vau
-    "         norm "xyau
-
-    "         " Expect the register to be the same as the url
-    "         Expect @x == url
-    "     endfor
-    " end
-
-    it 'should do nothing with incorrect urls'
+    it 'should match correct urls'
         for url in s:incorrect_urls
             call s:cleanBuffer()
-            call s:prepareBuffer(url)
-
-            " Go to line 4
-            4
-
-            " Jump to beginning of line
-            norm 0
+            put = url
 
             " Do vau
             norm "xyau
 
             " Expect the register to be the same as the url
-            Expect @x == ""
+            Expect @x != url
         endfor
     end
+end
 
-    it 'should not match other lines'
-        for url in s:correct_urls
-            call s:cleanBuffer()
-            call s:prepareBuffer(url)
 
-            " Go to line 4
-            2
+describe 'cursor position'
+    it 'should match with the cursor before the url'
+        let url = s:correct_urls[0]
+        call s:cleanBuffer()
+        call s:prepareBuffer(url)
 
-            " Jump to beginning of line
-            norm 0
+        " Go to line 4
+        4
 
-            " Do vau
-            norm "xyau
+        " Jump to beginning of line
+        norm 0
 
-            " Expect the register to be the same as the url
-            Expect @x == ""
-        endfor
+        " Do vau
+        norm "xyau
+
+        " Expect the register to be the same as the url
+        Expect @x == url
     end
+
+    " it 'should match with the cursor after the url'
+    "     let url = s:correct_urls[0]
+    "     call s:cleanBuffer()
+    "     call s:prepareBuffer(url)
+
+    "     " Go to line 4
+    "     4
+
+    "     " Jump to end of line
+    "     norm $
+
+    "     " Do vau
+    "     norm "xyau
+
+    "     " Expect the register to be the same as the url
+    "     Expect @x == url
+    " end
+
+    " it 'should not match other lines'
+    "     let url = s:correct_urls[0]
+    "     call s:cleanBuffer()
+    "     call s:prepareBuffer(url)
+
+    "     " Go to line 4
+    "     2
+
+    "     " Jump to beginning of line
+    "     norm 0
+
+    "     " Do vau
+    "     norm "xyau
+
+    "     " Expect the register to be empty
+    "     Expect @x == ""
+    " end
 end
