@@ -1,8 +1,6 @@
-# A Vim plugin to easily yank urls
+# vim-textobj-uri
 
-This plugin adds a command to easily yank urls. It does it by detecting if
-there's an url on the current line. If there is one, it is yanked into the
-default register.
+Vim plugin that adds a new `url` text object
 
 ## Installation
 
@@ -11,17 +9,31 @@ plugin](https://github.com/tpope/vim-pathogen), [Shougo's NeoBundle
 plugin](https://github.com/Shougo/neobundle.vim) or [Gmarik's Vundle
 plugin](https://github.com/gmarik/Vundle.vim) to install this.
 
+To install this plugin with NeoBundle:
+
+```
+NeoBundle 'LeonB/vim-textobj-url', {'depends': 'kana/vim-textobj-user'}
+```
+
+This plugin depends on
+[vim-textobj-user](https://github.com/kana/vim-textobj-user) so make sure that's
+installed.
+
 ## Usage
 
-The plugin provides a `:YankUrl` command but it would be a lot easier to
-configure a mapping for it. I use this:
+This plugins adds a `au` and a `iu` text object.
 
-```
-nmap <leader>yu :YankUrl<cr>
-```
+A couple of examples (the cursor is represented by `|`):
 
-Now go to a Vim buffer with a url in it. Jump to the line with the url and hit
-`<leader>yu`. Now _only_ the url is yanked.
+- This is`|` a link to Google: http://www.google.com
+- `ciu`
+- This is a link to Google: `|`
+
+---
+
+- &lt;a href=&quot;mailto:me@myhomepage.com&quot;&gt;E-mail `|`me!&lt;/a&gt;
+- `vau`
+- &lt;a href=&quot;__mailto:me@myhomepage.com__`|`&quto;&gt;E-mail me!&lt;/a&gt;
 
 ## License
 
